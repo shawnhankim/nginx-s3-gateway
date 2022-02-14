@@ -104,7 +104,7 @@ with the `--env-file` flag. The file would look something like
 The container can be run by (replacing `oss` with `plus` when invoking the NGINX
 Plus container):
 ```
-docker run --env-file ./settings -p80:80 --name nginx-oss-s3-gateway nginx-s3-gateway  
+docker run --env-file ./settings -p80:80 --name nginx-oss-s3-gateway nginx-oss-s3-gateway  
 ``` 
 
 ## Directory Structure and File Descriptions

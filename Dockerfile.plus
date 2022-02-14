@@ -30,6 +30,7 @@ RUN set -eux \
         nginx-plus=${NGINX_VERSION}~${DISTRO_VERSION} \
         nginx-plus-module-njs=${NJS_VERSION}~${DISTRO_VERSION} \
         nginx-plus-module-xslt=${XSLT_VERSION}~${DISTRO_VERSION} \
+        vim \
         gettext-base; \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
     rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*; \
@@ -37,6 +38,16 @@ RUN set -eux \
     ln -sf /dev/stdout /var/log/nginx/access.log; \
     ln -sf /dev/stderr /var/log/nginx/error.log; \
     chmod -R -v +x /docker-entrypoint.sh /docker-entrypoint.d/*.sh
+
+# RUN    mkdir -p     /etc/nginx
+# RUN    mkdir -p     /etc/nginx/include
+# RUN    mkdir -p     /etc/nginx/templates
+# RUN    mkdir -p     /etc/nginx/conf.d
+
+# RUN    chmod -R 777 /etc/nginx
+# RUN    chmod -R 777 /etc/nginx/include
+# RUN    chmod -R 777 /etc/nginx/templates
+# RUN    chmod -R 777 /etc/nginx/conf.d
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
@@ -50,7 +61,11 @@ CMD ["nginx", "-g", "daemon off;"]
 # the S3 Gateway use case.
 
 COPY plus/etc/nginx /etc/nginx
-COPY common/etc /etc
+RUN    chmod -R 777 /etc/nginx
+RUN    chmod -R 777 /etc/nginx/conf.d
+RUN    chmod -R 777 /etc/nginx/include
+RUN    chmod -R 777 /etc/nginx/templates
+# COPY common/etc /etc
 COPY common/docker-entrypoint.d/00-check-for-required-env.sh /docker-entrypoint.d/00-check-for-required-env.sh
 
 RUN set -eux \

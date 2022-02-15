@@ -1,29 +1,81 @@
 version: "3"
 
+networks: 
+  mynetwork:
+    name: mynetwork
+    attachable: true
+
 services:
-  nginx-plus-s3-gateway:
-    container_name: nginx-plus-s3-gateway
+  nginx-plus-minio-gateway:
+    container_name: nginx-plus-minio-gateway
     build:
       context: ./
       dockerfile: ./Dockerfile.plus
-    # If minio client is up and running properly, we are reasonably sure that
-    # minio has properly started. That's why we depend on it here.
-    image: "nginx-plus-s3-gateway"
+    image: nginx-plus-minio-gateway
     ports:
-      - "80:80/tcp"
+      - "81:80/tcp"
     restart: "no"
     environment:
-      S3_BUCKET_NAME: "nginx-images"
-      S3_ACCESS_KEY_ID: "ASIAZKS6SYCD7GKOLSEP"
-      S3_SECRET_KEY: "gTl6Lj/tOFAhowgR4pwtlJhkZji9zPtoRIq3DJDz"
-      S3_SERVER: s3.amazonaws.com
+      S3_BUCKET_NAME: nginx-images
+      S3_ACCESS_KEY_ID: minioadmin
+      S3_SECRET_KEY: minioadmin
+      S3_SERVER: minio
+      S3_SERVER_PORT: 9099
+      S3_SERVER_PROTO: http
+      S3_REGION: us-east-1
+      S3_STYLE: virtual
+      S3_DEBUG: true
+      AWS_SIGS_VERSION: 4
+      ALLOW_DIRECTORY_LIST: true
+    depends_on:
+      - minio
+    networks:
+      - mynetwork
+
+  nginx-plus-s3-gateway-01:
+    container_name: nginx-plus-s3-gateway-01
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.plus
+    image: "nginx-plus-s3-gateway-01"
+    ports:
+      - "82:80/tcp"
+    restart: "no"
+    environment:
+      S3_BUCKET_NAME: "nginx-images-01"
+      S3_ACCESS_KEY_ID: "AKIATLPXHA4NODUCIHS2"
+      S3_SECRET_KEY: "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"
+      S3_SERVER: s3-us-east-2.amazonaws.com
       S3_SERVER_PORT: 443
       S3_SERVER_PROTO: https
       S3_REGION: us-east-2
       S3_STYLE: virtual
       S3_DEBUG: true
-      AWS_SIGS_VERSION: 2
+      AWS_SIGS_VERSION: 4
       ALLOW_DIRECTORY_LIST: true
+
+  nginx-plus-s3-gateway-02:
+    container_name: nginx-plus-s3-gateway-02
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.plus
+    image: "nginx-plus-s3-gateway-02"
+    ports:
+      - "83:80/tcp"
+    restart: "no"
+    environment:
+      S3_BUCKET_NAME: "nginx-images"
+      S3_ACCESS_KEY_ID: "ASIAZKS6SYCDUENNRWXN"
+      S3_SECRET_KEY: "f8Y+Lns5XTToC2wQhA98N1gKLMdsZPXXSBAz+z25"
+      S3_SERVER: s3-us-east-2.amazonaws.com
+      S3_SERVER_PORT: 443
+      S3_SERVER_PROTO: https
+      S3_REGION: us-east-2
+      S3_STYLE: virtual
+      S3_DEBUG: true
+      AWS_SIGS_VERSION: 4
+      ALLOW_DIRECTORY_LIST: true
+
     # volumes:
     #   - type: bind
     #     source: ./common/etc/nginx
@@ -35,3 +87,38 @@ services:
     #   - type: bind
     #     source: ./common/etc/nginx/include
     #     target: /etc/nginx/include
+    networks:
+      - mynetwork
+
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9099:9099
+    restart: "no"
+    command: server --address :9099 --console-address :9000 /data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_REGION_NAME: us-east-1
+      MINIO_DOMAIN: minio
+      MINIO_BROWSER: on
+    volumes:
+      - type: bind
+        source: ./storage/data
+        target: /data
+    networks:
+      - mynetwork
+
+  minio-client:
+    container_name: minio-client
+    depends_on:
+      - "minio"
+    image: "minio/mc"
+    restart: "no"
+    command: "admin trace --verbose nginx-test-gateway"
+    environment:
+      MC_HOST_nginx-test-gateway: "http://minioadmin:minioadmin@minio:9099"
+    networks:
+      - mynetwork

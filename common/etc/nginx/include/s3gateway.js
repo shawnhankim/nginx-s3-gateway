@@ -15,6 +15,7 @@
  */
 
 _require_env_var('S3_ACCESS_KEY_ID');
+_require_env_var('S3_SESSION_TOKEN');
 _require_env_var('S3_SECRET_KEY');
 _require_env_var('S3_BUCKET_NAME');
 _require_env_var('S3_SERVER');
@@ -148,6 +149,14 @@ function s3auth(r) {
     }
 
     return signature;
+}
+
+function s3SecurityToken() {
+    var securityToken = process.env['S3_SESSION_TOKEN'];
+    if (securityToken) {
+        return securityToken;
+    }
+    return '';
 }
 
 function s3BaseUri(r) {
@@ -651,6 +660,7 @@ export default {
     s3date,
     s3auth,
     s3uri,
+    s3SecurityToken,
     redirectToS3,
     editAmzHeaders,
     filterListResponse,

@@ -47,3 +47,6 @@ RUN set -eux \
     rm -rf \
       /var/lib/apt/lists/* \
       /tmp/*
+
+RUN  mkdir -p /etc/nginx/include/awssig/core
+COPY common/etc/nginx/include/awssig/core /etc/nginx/include/awssig/core

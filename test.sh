@@ -230,6 +230,13 @@ integration_test() {
 finish() {
   result=$?
 
+  for (( i=1; i<=60; i++ ))
+  do
+    echo "waiting \"$i\" second before finishing integration tests"
+    sleep 1
+  done
+
+
   if [ $result -ne 0 ]; then
     e "Error running tests - outputting container logs"
     compose logs

@@ -33,3 +33,5 @@ RUN set -eux \
     apt-get remove --purge --auto-remove --yes; \
     rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/nginx.list
 
+RUN  mkdir -p /etc/nginx/include/awssig/core
+COPY common/etc/nginx/include/awssig/core /etc/nginx/include/awssig/core

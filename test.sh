@@ -40,13 +40,6 @@ e() {
   >&2 echo "$1"
 }
 
-git submodule update --init common/etc/nginx/include/awssig
-git submodule absorbgitdirs
-git -C common/etc/nginx/include/awssig config core.sparseCheckout true
-echo 'core/*' >>.git/modules/common/etc/nginx/include/awssig/info/sparse-checkout
-git submodule update --force --checkout common/etc/nginx/include/awssig
-
-
 usage() { e "Usage: $0 [--latest-njs <default:false>] [--unprivileged <default:false>] [--type <default:oss|plus>" 1>&2; exit 1; }
 
 for arg in "$@"; do

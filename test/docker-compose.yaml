@@ -1,6 +1,35 @@
 version: "3"
 
 services:
+
+  minio:
+    image: "minio/minio:RELEASE.2021-02-19T04-38-02Z"
+    ports:
+      - "9090:9000/tcp"
+    restart: "no"
+    command: "server --address :9000 /data"
+    environment:
+      MINIO_ACCESS_KEY: "AKIAIOSFODNN7EXAMPLE"
+      MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+      MINIO_REGION_NAME: "us-east-1"
+      MINIO_DOMAIN: "minio"
+      MINIO_BROWSER: "off"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+  # It may be useful to enable minio client so that you can debug what calls
+  # were made to minio by the gateway.
+#  minio-client:
+#    depends_on:
+#      - "minio"
+#    image: "minio/mc"
+#    restart: "no"
+#    command: "admin trace --verbose nginx-test-gateway"
+#    environment:
+#      MC_HOST_nginx-test-gateway: "http://AKIAIOSFODNN7EXAMPLE:wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY@minio:9000"
+
   nginx-s3-gateway:
     # If minio client is up and running properly, we are reasonably sure that
     # minio has properly started. That's why we depend on it here. 
@@ -31,31 +60,3 @@ services:
       PROXY_CACHE_VALID_OK: "1h"
       PROXY_CACHE_VALID_NOTFOUND: "1m"
       PROXY_CACHE_VALID_FORBIDDEN: "30s"
-
-  minio:
-    image: "minio/minio:RELEASE.2021-02-19T04-38-02Z"
-    ports:
-      - "9090:9000/tcp"
-    restart: "no"
-    command: "server --address :9000 /data"
-    environment:
-      MINIO_ACCESS_KEY: "AKIAIOSFODNN7EXAMPLE"
-      MINIO_SECRET_KEY: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-      MINIO_REGION_NAME: "us-east-1"
-      MINIO_DOMAIN: "minio"
-      MINIO_BROWSER: "off"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 5s
-      timeout: 3s
-      retries: 3
-  # It may be useful to enable minio client so that you can debug what calls
-  # were made to minio by the gateway.
-#  minio-client:
-#    depends_on:
-#      - "minio"
-#    image: "minio/mc"
-#    restart: "no"
-#    command: "admin trace --verbose nginx-test-gateway"
-#    environment:
-#      MC_HOST_nginx-test-gateway: "http://AKIAIOSFODNN7EXAMPLE:wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY@minio:9000"

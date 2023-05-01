@@ -199,7 +199,11 @@ integration_test() {
     fi
   fi
 
-  sleep 5
+  for (( i=1; i<=5; i++ ))
+  do
+    echo "waiting \"$i\" second before starting integration tests"
+    sleep 1
+  done
 
   p "Starting HTTP API tests (v$1 signatures)"
   echo "  test/integration/test_api.sh \"$test_server\" \"$test_dir\" $1 $2 $3 $4"

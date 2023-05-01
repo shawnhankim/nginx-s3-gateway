@@ -3,7 +3,7 @@ version: "3"
 services:
   nginx-s3-gateway:
     # If minio client is up and running properly, we are reasonably sure that
-    # minio has properly started. That's why we depend on it here.
+    # minio has properly started. That's why we depend on it here. 
     depends_on:
       minio:
         condition: service_healthy

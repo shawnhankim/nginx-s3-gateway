@@ -1,5 +1,10 @@
 version: "3"
 
+networks:
+  mynetwork:
+    name: mynetwork
+    attachable: true
+
 services:
 
   minio:
@@ -19,6 +24,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
+    networks:
+      - mynetwork
   # It may be useful to enable minio client so that you can debug what calls
   # were made to minio by the gateway.
 #  minio-client:
@@ -60,3 +67,5 @@ services:
       PROXY_CACHE_VALID_OK: "1h"
       PROXY_CACHE_VALID_NOTFOUND: "1m"
       PROXY_CACHE_VALID_FORBIDDEN: "30s"
+    networks:
+      - mynetwork

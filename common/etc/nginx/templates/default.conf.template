@@ -136,6 +136,8 @@ server {
         error_page 404 @trailslashControl;
 
         proxy_pass ${S3_SERVER_PROTO}://storage_urls$s3uri;
+        proxy_read_timeout 300; # Reducing this
+        proxy_connect_timeout 300;  # Adding this
 
         include /etc/nginx/conf.d/gateway/s3_location.conf;
     }

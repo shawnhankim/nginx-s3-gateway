@@ -207,6 +207,12 @@ integration_test() {
   # signatures as it was configured to do.
   sig_versions_found_count=$(compose logs nginx-s3-gateway | grep -c "AWS Signatures Version: v$1\|AWS v$1 Auth")
 
+  p "\n\n";
+  p "sig_versions_found_count:"
+  p ${sig_versions_found_count}
+  p "\n\n";
+
+
   if [ "${sig_versions_found_count}" -lt 3 ]; then
     e "NGINX was not detected as using the correct signatures version - examine logs"
     compose logs nginx-s3-gateway

@@ -188,6 +188,7 @@ integration_test() {
       echo "Querying minio server to see if it is ready"
       minio_is_up="$(${curl_cmd} -s -o /dev/null -w '%{http_code}' "${minio_server}"/minio/health/cluster)"
       if [ "${minio_is_up}" = "200" ]; then
+        echo "minio server is ready \"$minio_server\" "
         break
       else
         sleep 2

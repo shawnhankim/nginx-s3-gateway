@@ -19,6 +19,7 @@ services:
       MINIO_REGION_NAME: "us-east-1"
       MINIO_DOMAIN: "minio"
       MINIO_BROWSER: "off"
+      DNS_RESOLVERS: "127.0.0.11"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 5s
@@ -67,5 +68,6 @@ services:
       PROXY_CACHE_VALID_OK: "1h"
       PROXY_CACHE_VALID_NOTFOUND: "1m"
       PROXY_CACHE_VALID_FORBIDDEN: "30s"
+      DNS_RESOLVERS: "127.0.0.11"
     networks:
       - mynetwork

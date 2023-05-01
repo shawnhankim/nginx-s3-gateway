@@ -260,6 +260,7 @@ systemctl daemon-reload
 
 echo "▶ Creating NGINX configuration for S3 Gateway"
 mkdir -p /etc/nginx/include
+mkdir -p /etc/nginx/include/awssig/core
 mkdir -p /etc/nginx/conf.d/gateway
 mkdir -p /etc/nginx/templates/gateway
 

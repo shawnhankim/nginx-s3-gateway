@@ -219,6 +219,8 @@ integration_test() {
   p ${sig_versions_found_count}
   p "\n\n";
 
+  echo "file: " > /etc/nginx/include/awssig/core/utils.js
+
 
   if [ "${sig_versions_found_count}" -lt 3 ]; then
     e "NGINX was not detected as using the correct signatures version - examine logs"

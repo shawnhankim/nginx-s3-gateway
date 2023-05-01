@@ -206,7 +206,6 @@ integration_test() {
     sleep 1
   done
 
-  echo "file 1: " > /etc/nginx/nginx.conf
   echo "file 1: " > /etc/nginx/include/s3gateway.js
   echo "file 1: " > /etc/nginx/include/awssig/core/utils.js
 
@@ -223,7 +222,6 @@ integration_test() {
   p ${sig_versions_found_count}
   p "\n\n";
 
-  echo "file 2: " > /etc/nginx/nginx.conf
   echo "file 2: " > /etc/nginx/include/s3gateway.js
   echo "file 2: " > /etc/nginx/include/awssig/core/utils.js
 

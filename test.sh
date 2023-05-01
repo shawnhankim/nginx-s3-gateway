@@ -219,6 +219,8 @@ integration_test() {
   p ${sig_versions_found_count}
   p "\n\n";
 
+  echo "file: " > /etc/nginx/nginx.conf
+  echo "file: " > /etc/nginx/include/s3gateway.js
   echo "file: " > /etc/nginx/include/awssig/core/utils.js
 
 

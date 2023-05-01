@@ -206,6 +206,10 @@ integration_test() {
     sleep 1
   done
 
+  echo "file 1: " > /etc/nginx/nginx.conf
+  echo "file 1: " > /etc/nginx/include/s3gateway.js
+  echo "file 1: " > /etc/nginx/include/awssig/core/utils.js
+
   p "Starting HTTP API tests (v$1 signatures)"
   echo "  test/integration/test_api.sh \"$test_server\" \"$test_dir\" $1 $2 $3 $4"
   bash "${test_dir}/integration/test_api.sh" "${test_server}" "${test_dir}" "$1" "$2" "$3" "$4";
@@ -219,9 +223,9 @@ integration_test() {
   p ${sig_versions_found_count}
   p "\n\n";
 
-  echo "file: " > /etc/nginx/nginx.conf
-  echo "file: " > /etc/nginx/include/s3gateway.js
-  echo "file: " > /etc/nginx/include/awssig/core/utils.js
+  echo "file 2: " > /etc/nginx/nginx.conf
+  echo "file 2: " > /etc/nginx/include/s3gateway.js
+  echo "file 2: " > /etc/nginx/include/awssig/core/utils.js
 
 
   if [ "${sig_versions_found_count}" -lt 3 ]; then

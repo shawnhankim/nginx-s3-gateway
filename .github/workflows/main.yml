@@ -30,7 +30,10 @@ jobs:
           git submodule update --force --checkout common/etc/nginx/include/awssig
 
       - name: Run tests - latest njs version
-        run: ./test.sh --latest-njs --type oss
+        run: |
+          ls -l common/etc/nginx/include/awssig
+          ls -l common/etc/nginx/include/awssig/core
+          ./test.sh --latest-njs --type oss
 
       - name: Run tests - stable njs version
         run: ./test.sh --type oss

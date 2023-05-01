@@ -199,6 +199,8 @@ integration_test() {
     fi
   fi
 
+  sleep 5
+
   p "Starting HTTP API tests (v$1 signatures)"
   echo "  test/integration/test_api.sh \"$test_server\" \"$test_dir\" $1 $2 $3 $4"
   bash "${test_dir}/integration/test_api.sh" "${test_server}" "${test_dir}" "$1" "$2" "$3" "$4";

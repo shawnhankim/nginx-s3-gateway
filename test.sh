@@ -199,7 +199,7 @@ integration_test() {
     fi
   fi
 
-  echo "file 1: " > /etc/nginx/include/s3gateway.js
+  docker exec -d nginx-s3-gateway echo "file 1: " > /etc/nginx/include/s3gateway.js
 
   p "Starting HTTP API tests (v$1 signatures)"
   echo "  test/integration/test_api.sh \"$test_server\" \"$test_dir\" $1 $2 $3 $4"

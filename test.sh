@@ -274,7 +274,7 @@ runUnitTestWithOutSessionToken() {
     --rm                                  \
     -v "$(pwd)/test/unit:/var/tmp"        \
     --workdir /var/tmp                    \
-    -e "S3_DEBUG=true"                    \
+    -e "DEBUG=true"                    \
     -e "S3_STYLE=virtual"                 \
     -e "AWS_ACCESS_KEY_ID=unit_test"       \
     -e "AWS_SECRET_ACCESS_KEY=unit_test"          \
@@ -297,7 +297,7 @@ runUnitTestWithSessionToken() {
     --rm                                  \
     -v "$(pwd)/test/unit:/var/tmp"        \
     --workdir /var/tmp                    \
-    -e "S3_DEBUG=true"                    \
+    -e "DEBUG=true"                    \
     -e "S3_STYLE=virtual"                 \
     -e "AWS_ACCESS_KEY_ID=unit_test"       \
     -e "AWS_SECRET_ACCESS_KEY=unit_test"          \

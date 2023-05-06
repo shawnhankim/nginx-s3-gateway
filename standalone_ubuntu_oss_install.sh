@@ -148,7 +148,7 @@ S3_SERVER=${S3_SERVER}
 # The S3 host/path method - 'virtual', 'path' or 'default'
 S3_STYLE=${S3_STYLE}
 # Flag (true/false) enabling AWS signatures debug output (default: false)
-S3_DEBUG=${S3_DEBUG}
+DEBUG=${DEBUG}
 # Proxy caching time for response code 200 and 302
 PROXY_CACHE_VALID_OK=${PROXY_CACHE_VALID_OK}
 # Proxy caching time for response code 404
@@ -310,7 +310,7 @@ env S3_SERVER_PORT;
 env S3_SERVER_PROTO;
 env S3_REGION;
 env AWS_SIGS_VERSION;
-env S3_DEBUG;
+env DEBUG;
 env S3_STYLE;
 env ALLOW_DIRECTORY_LIST;
 
